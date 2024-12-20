@@ -7,16 +7,20 @@ import pytesseract
 # Specify the path to Tesseract-OCR
 pytesseract.pytesseract.tesseract_cmd = r"/usr/local/bin/tesseract"  # Update with your Tesseract path
 
-# Paths
-MODEL_PATH = '{path_to_store_saved_model}/efficientdet_d4_coco17_tpu-32/saved_model'  # Path to TensorFlow saved model
-OUTPUT_FOLDER = "{your_output_path}/cropped_images"
+# Get the current working directory
+BASE_DIR = os.getcwd()
+
+# Set the model path relative to the project directory
+MODEL_PATH = os.path.join(BASE_DIR, 'efficientdet_d4_coco17_tpu-32', 'saved_model')
+
+# Set the output folder path
+OUTPUT_FOLDER = os.path.join(BASE_DIR, 'cropped_images')
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 # Load TensorFlow model
 print("Loading TensorFlow model...")
 detect_fn = tf.saved_model.load(MODEL_PATH)
 print("Model loaded successfully.")
-
 
 def contains_required_text(cropped_image):
     """
